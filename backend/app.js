@@ -1,13 +1,18 @@
+dotenv = require('dotenv');
+dotenv.config();
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const fs = require('fs');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 5000;
 
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/translate', async (req, res) => {
     const { text } = req.body;
@@ -41,18 +46,18 @@ app.post('/text-to-speech', async (req, res) => {
     const { text } = req.body;
 
     const encodedParams = new URLSearchParams();
-    encodedParams.set('f', '44khz_8bit_mono');
-    encodedParams.set('b64', 'true');
+    encodedParams.set('f', '8khz_8bit_mono');
+    encodedParams.set('v','Nancy')
     encodedParams.set('c', 'mp3');
     encodedParams.set('r', '0');
-    encodedParams.set('hl', 'hi-in');
+    encodedParams.set('hl', 'en-us');
     encodedParams.set('src', text);
 
     const options = {
         method: 'POST',
         url: 'https://voicerss-text-to-speech.p.rapidapi.com/',
         params: {
-            key: '9b6eec4c0dde45d1935eb57a55552ef7'
+            key: process.env.API_KEY
         },
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
