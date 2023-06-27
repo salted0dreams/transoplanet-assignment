@@ -11,7 +11,7 @@ const TranslationForm = () => {
   const handleTranslation = async () => {
     if (!text) return;
     try {
-      const response = await axios.post('http://localhost:5000/translate', { text });
+      const response = await axios.post('https://text-translate.onrender.com/translate', { text });
       console.log(response.data.data.translatedText);
       setTranslatedText(response.data.data.translatedText);
     } catch (error) {
@@ -22,7 +22,7 @@ const TranslationForm = () => {
   const handleTextToSpeech = async () => {
     if (!text) return;
     try {
-      const response = await axios.post('http://localhost:5000/text-to-speech', { text: translatedText });
+      const response = await axios.post('https://text-translate.onrender.com/text-to-speech', { text: translatedText });
       console.log(response);
       const audioFile = new Blob([response.data], { type: 'audio/mp3' });
       console.log(audioFile);
